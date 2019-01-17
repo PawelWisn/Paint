@@ -6,11 +6,11 @@ from math import sqrt
 class Paint:
     def __init__(self):
         self.window = Tk()
-        self.drawField = Canvas(self.window, width=1200, height=600)
+        self.drawField = Canvas(self.window, width=1920, height=1080)
         self.menu = Menu(self.window)
         self.buildMenu()
         self.buildWindow()
-        self.currDrawTool = 'arc'
+        self.currDrawTool = None
         self.leftMouse = 'up'
         self.x1Pos, self.y1Pos = None, None
 
@@ -19,8 +19,8 @@ class Paint:
 
     def buildWindow(self):
         self.window.title('Paint')
-        self.window.geometry('1200x600+400+100')
-        self.window.resizable(0, 0)
+        self.window.geometry('1920x1080')
+        self.window.resizable(1, 1)
         self.window.config(menu=self.menu)
         self.drawField.pack()
         self.drawField.bind("<Motion>", self.drawPencil)
@@ -29,14 +29,15 @@ class Paint:
 
     def buildMenu(self):
         menu_list = Menu(self.menu, tearoff=1)
-        menu_list.add_command(label='Pencil', command=(lambda: self.__setattr__('currDrawTool', 'pencil')))
-        menu_list.add_command(label='Line', command=(lambda: self.__setattr__('currDrawTool', 'line')))
-        menu_list.add_command(label='Oval', command=(lambda: self.__setattr__('currDrawTool', 'oval')))
-        menu_list.add_command(label='Circle', command=(lambda: self.__setattr__('currDrawTool', 'circle')))
-        menu_list.add_command(label='Arc', command=(lambda: self.__setattr__('currDrawTool', 'arc')))
-        menu_list.add_command(label='Rectangle', command=(lambda: self.__setattr__('currDrawTool', 'rect')))
+        rb = IntVar()
+        menu_list.add_radiobutton(label='Pencil', activebackground='yellow', variable=rb, command=lambda: self.__setattr__('currDrawTool', 'pencil'))
+        menu_list.add_radiobutton(label='Line', activebackground='yellow', variable=rb, command=lambda: self.__setattr__('currDrawTool', 'line'))
+        menu_list.add_radiobutton(label='Oval', activebackground='yellow', variable=rb, command=lambda: self.__setattr__('currDrawTool', 'oval'))
+        menu_list.add_radiobutton(label='Circle', activebackground='yellow', variable=rb, command=lambda: self.__setattr__('currDrawTool', 'circle'))
+        menu_list.add_radiobutton(label='Arc', activebackground='yellow', variable=rb, command=lambda: self.__setattr__('currDrawTool', 'arc'))
+        menu_list.add_radiobutton(label='Rectangle', activebackground='yellow', variable=rb, command=lambda: self.__setattr__('currDrawTool', 'rect'))
         menu_list.add_separator()
-        menu_list.add_command(label='Quit', command=self.window.quit)
+        menu_list.add_command(label='Quit', activebackground='yellow', command=self.window.quit)
         self.menu.add_cascade(label='Tools', menu=menu_list)
 
     def catchMouseUp(self, event=None):
